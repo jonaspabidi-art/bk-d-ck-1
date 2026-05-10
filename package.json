@@ -1,0 +1,19 @@
+{
+  "name": "bk-daeck",
+  "version": "1.0.0",
+  "description": "BK Däck – bokningssystem och hemsida",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "better-sqlite3": "^11.0.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.10.1"
+  }
+}

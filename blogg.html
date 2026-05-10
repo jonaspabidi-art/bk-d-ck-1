@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blogg – Däcktips & Råd från BK Däck Göteborg</title>
+<meta name="description" content="Läs BK Däcks blogg med expertråd om däckskifte, däckvård, fälgval och säker körning i Göteborg. Praktiska tips för bilägare.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://bkdaeck.se/blogg.html">
+<meta property="og:title" content="Blogg – Däcktips & Råd från BK Däck Göteborg">
+<meta property="og:description" content="Expertråd om däck, fälgar och bilsäkerhet från BK Däcks verkstad i Göteborg.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #0e0e0e; --coal: #1a1a1a; --steel: #2c2c2c;
+  --mid: #5a5a5a; --muted: #9a9a9a; --white: #f8f7f4;
+  --blue: #1c3c70; --blue-lt: #2550a0; --accent: #c8a84b;
+  --font: 'Barlow', sans-serif; --font-cd: 'Barlow Condensed', sans-serif;
+}
+html { scroll-behavior: smooth; }
+body { font-family: var(--font); background: var(--white); color: var(--black); line-height: 1.5; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* Nav */
+#nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 32px; height: 64px; background: rgba(10,10,10,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+.nav-logo svg { height: 44px; width: auto; }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.7); transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: #fff; }
+.nav-cta { display: flex; align-items: center; gap: 16px; }
+.nav-phone { font-size: 13px; color: rgba(255,255,255,0.55); }
+.btn-primary { display: inline-flex; align-items: center; background: var(--blue); color: #fff; font-size: 13px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 10px 22px; border-radius: 4px; transition: background 0.2s; }
+.btn-primary:hover { background: var(--blue-lt); }
+.nav-hamburger { display: none; flex-direction: column; gap: 5px; padding: 8px; cursor: pointer; background: none; border: none; }
+.nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; border-radius: 2px; }
+.nav-mobile { display: none; position: fixed; top: 64px; left: 0; right: 0; background: var(--coal); z-index: 99; padding: 20px 32px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-direction: column; }
+.nav-mobile.open { display: flex; }
+.nav-mobile a { font-size: 15px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.75); padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.nav-mobile a:last-child { border-bottom: none; }
+
+/* Hero */
+.blog-hero { padding: 120px 0 64px; background: var(--coal); }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+.section-label { font-family: var(--font-cd); font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.blog-hero h1 { font-family: var(--font-cd); font-size: clamp(40px, 5vw, 64px); font-weight: 900; text-transform: uppercase; color: #fff; line-height: 1; margin-bottom: 16px; }
+.blog-hero p { font-size: 16px; color: rgba(255,255,255,0.55); max-width: 480px; }
+
+/* Grid */
+.blog-grid-section { padding: 64px 0 96px; }
+.blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+.post-card { background: #fff; border: 1px solid #e8e6e0; display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s; }
+.post-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-3px); }
+.post-card-img { aspect-ratio: 16/9; overflow: hidden; background: #ddd; }
+.post-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.post-card:hover .post-card-img img { transform: scale(1.04); }
+.post-card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; gap: 10px; }
+.post-tag { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--blue); }
+.post-card-title { font-family: var(--font-cd); font-size: 20px; font-weight: 800; text-transform: uppercase; line-height: 1.1; color: var(--black); }
+.post-card-excerpt { font-size: 14px; color: var(--mid); line-height: 1.6; flex: 1; }
+.post-card-meta { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; margin-top: 4px; }
+.post-card-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); margin-top: 8px; transition: gap 0.2s; }
+.post-card-link:hover { gap: 10px; }
+
+/* Footer */
+footer { background: var(--black); padding: 28px 0; border-top: 1px solid rgba(255,255,255,0.06); }
+.footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.footer-logo svg { height: 30px; width: auto; }
+.footer-text { font-size: 12px; color: rgba(255,255,255,0.3); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 12px; color: rgba(255,255,255,0.3); transition: color 0.2s; }
+.footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+@media (max-width: 900px) {
+  .nav-links, .nav-phone { display: none; }
+  .nav-hamburger { display: flex; }
+  .blog-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  #nav { padding: 0 20px; }
+  .container { padding: 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="/index.html">
+    <svg height="38" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="19" width="36" height="6" fill="#1c3c70" opacity="0.9"/>
+      <rect x="0" y="13" width="36" height="3" fill="white" opacity="0.18"/>
+      <rect x="0" y="28" width="36" height="3" fill="white" opacity="0.18"/>
+      <text x="44" y="34" font-family="'Barlow Condensed', sans-serif" font-weight="800" font-size="30" letter-spacing="-0.5" fill="white">BK</text>
+      <rect x="44" y="38" width="52" height="1.5" fill="#1c3c70"/>
+      <text x="44" y="44" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="11" letter-spacing="4" fill="rgba(255,255,255,0.6)">DÄCK</text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="/index.html#tjanster">Tjänster</a></li>
+    <li><a href="/index.html#bokning">Boka tid</a></li>
+    <li><a href="/index.html#om-oss">Om oss</a></li>
+    <li><a href="/index.html#reviews">Recensioner</a></li>
+    <li><a href="/index.html#hitta-hit">Hitta hit</a></li>
+    <li><a href="/blogg.html" class="active">Blogg</a></li>
+  </ul>
+  <div class="nav-cta">
+    <span class="nav-phone">076-223 28 23</span>
+    <a href="/index.html#bokning" class="btn-primary">Boka tid</a>
+  </div>
+  <button class="nav-hamburger" id="hamburgerBtn" aria-label="Meny" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<div class="nav-mobile" id="mobileNav">
+  <a href="/index.html#tjanster">Tjänster</a>
+  <a href="/index.html#bokning">Boka tid</a>
+  <a href="/index.html#om-oss">Om oss</a>
+  <a href="/index.html#reviews">Recensioner</a>
+  <a href="/index.html#hitta-hit">Hitta hit</a>
+  <a href="/blogg.html">Blogg</a>
+</div>
+
+<section class="blog-hero">
+  <div class="container">
+    <p class="section-label">Kunskap & råd</p>
+    <h1>Blogg</h1>
+    <p>Praktiska tips om däck, fälgar och bilsäkerhet från våra mekaniker i Göteborg.</p>
+  </div>
+</section>
+
+<section class="blog-grid-section">
+  <div class="container">
+    <div class="blog-grid">
+
+      <a href="/blogg/sommardack-vs-vinterdack.html" class="post-card">
+        <div class="post-card-img">
+          <img src="https://images.unsplash.com/photo-1547448415-e9f5b28e570d?w=800&auto=format&fit=crop&q=80"
+               alt="Bil i snö – när ska man byta till vinterdäck?" loading="lazy">
+        </div>
+        <div class="post-card-body">
+          <span class="post-tag">Säsongsguide</span>
+          <h2 class="post-card-title">Sommardäck eller vinterdäck – när ska du byta?</h2>
+          <p class="post-card-excerpt">Missar du rätt tidpunkt för däckbytet riskerar du böter, sämre väggrepp och onöligt däckslitage. Här är de exakta reglerna och bästa tidpunkterna.</p>
+          <span class="post-card-meta">BK Däck · Maj 2026 · 5 min läsning</span>
+          <span class="post-card-link">Läs artikel →</span>
+        </div>
+      </a>
+
+      <a href="/blogg/tips-langre-dacklivslangd.html" class="post-card">
+        <div class="post-card-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&auto=format&fit=crop&q=80"
+               alt="Däck nära – tips för längre livslängd" loading="lazy">
+        </div>
+        <div class="post-card-body">
+          <span class="post-tag">Däckvård</span>
+          <h2 class="post-card-title">5 tips som ger dina däck längre livslängd</h2>
+          <p class="post-card-excerpt">Rätt lufttryck, jämnt slitage och korrekt förvaring kan dubbla din däcks livslängd. Våra mekaniker delar sina bästa råd.</p>
+          <span class="post-card-meta">BK Däck · Maj 2026 · 4 min läsning</span>
+          <span class="post-card-link">Läs artikel →</span>
+        </div>
+      </a>
+
+      <a href="/blogg/stal-eller-aluminiumfalgar.html" class="post-card">
+        <div class="post-card-img">
+          <img src="https://images.unsplash.com/photo-1611821064430-0d40291d0f0b?w=800&auto=format&fit=crop&q=80"
+               alt="Stålfälgar vs aluminiumfälgar – vilket ska du välja?" loading="lazy">
+        </div>
+        <div class="post-card-body">
+          <span class="post-tag">Fälgguide</span>
+          <h2 class="post-card-title">Stål- eller aluminiumfälgar – vilket ska du välja?</h2>
+          <p class="post-card-excerpt">Pris, vikt, hållbarhet och utseende – vi jämför stål- och aluminiumfälgar så att du kan fatta rätt beslut för din bil och din plånbok.</p>
+          <span class="post-card-meta">BK Däck · Maj 2026 · 5 min läsning</span>
+          <span class="post-card-link">Läs artikel →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a class="footer-logo" href="/index.html">
+        <svg height="30" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="19" width="36" height="6" fill="#1c3c70" opacity="0.7"/>
+          <rect x="0" y="13" width="36" height="3" fill="white" opacity="0.1"/>
+          <rect x="0" y="28" width="36" height="3" fill="white" opacity="0.1"/>
+          <text x="44" y="34" font-family="'Barlow Condensed', sans-serif" font-weight="800" font-size="30" letter-spacing="-0.5" fill="white" opacity="0.55">BK</text>
+          <rect x="44" y="38" width="52" height="1.5" fill="#1c3c70" opacity="0.5"/>
+          <text x="44" y="44" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="11" letter-spacing="4" fill="rgba(255,255,255,0.3)">DÄCK</text>
+        </svg>
+      </a>
+      <p class="footer-text">BK Däck HB · Ringögatan 13, Göteborg · Org.nr 969788-9526</p>
+      <div class="footer-links">
+        <a href="tel:0762232823">076-223 28 23</a>
+        <a href="/index.html#bokning">Boka tid</a>
+        <a href="/index.html#hitta-hit">Kontakt</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<div style="background:var(--black); text-align:center; padding:10px 0 12px;">
+  <a href="/admin.html" style="font-size:10px; color:rgba(255,255,255,0.08); letter-spacing:0.1em; text-transform:uppercase;">admin</a>
+</div>
+
+<script>
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const mobileNav = document.getElementById('mobileNav');
+hamburgerBtn.addEventListener('click', () => {
+  const open = mobileNav.classList.toggle('open');
+  hamburgerBtn.setAttribute('aria-expanded', open);
+});
+</script>
+</body>
+</html>

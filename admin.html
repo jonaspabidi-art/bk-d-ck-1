@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin – BK Däck</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --black:   #0e0e0e;
+  --coal:    #1a1a1a;
+  --steel:   #2c2c2c;
+  --mid:     #5a5a5a;
+  --muted:   #9a9a9a;
+  --light:   #e8e7e3;
+  --white:   #f8f7f4;
+  --blue:    #1c3c70;
+  --blue-lt: #2550a0;
+  --accent:  #c8a84b;
+  --green:   #2a6a10;
+  --green-lt:#e8f5e0;
+  --yellow:  #8a6a00;
+  --yellow-lt:#fff8d6;
+  --red:     #8a1010;
+  --red-lt:  #fde8e8;
+  --font:    'Barlow', sans-serif;
+  --font-cd: 'Barlow Condensed', sans-serif;
+}
+
+html, body { height: 100%; }
+
+body {
+  font-family: var(--font);
+  background: #111;
+  color: #e0dedd;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: var(--font); }
+
+/* ── Login screen ───────────────────────────────────────────── */
+#loginScreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+}
+
+.login-box {
+  width: 340px;
+  background: var(--coal);
+  border: 1px solid rgba(255,255,255,0.07);
+  padding: 40px 36px;
+}
+
+.login-logo {
+  margin-bottom: 32px;
+}
+
+.login-logo svg { height: 36px; }
+
+.login-box h1 {
+  font-family: var(--font-cd);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 28px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.login-field label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+
+.login-field input {
+  background: rgba(255,255,255,0.05);
+  border: 1.5px solid rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 11px 14px;
+  font-size: 15px;
+  font-family: var(--font);
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.login-field input:focus { border-color: var(--blue); }
+
+.login-btn {
+  width: 100%;
+  background: var(--blue);
+  color: #fff;
+  border: none;
+  padding: 13px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  margin-top: 8px;
+  transition: background 0.2s;
+}
+.login-btn:hover { background: var(--blue-lt); }
+
+.login-error {
+  font-size: 13px;
+  color: #e87070;
+  margin-top: 12px;
+  display: none;
+}
+
+/* ── Admin app ──────────────────────────────────────────────── */
+#adminApp { display: none; }
+
+.admin-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(14,14,14,0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 56px;
+}
+
+.admin-nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-nav-logo svg { height: 30px; }
+
+.admin-nav-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  border-left: 1px solid rgba(255,255,255,0.1);
+  padding-left: 12px;
+}
+
+.admin-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-logout {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 6px 14px;
+  transition: all 0.2s;
+}
+.nav-logout:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+.admin-main { padding: 28px; max-width: 1200px; margin: 0 auto; }
+
+/* ── Stats bar ──────────────────────────────────────────────── */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  background: var(--coal);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stat-card-num {
+  font-family: var(--font-cd);
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  color: #fff;
+}
+
+.stat-card-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.35);
+}
+
+/* ── Filters ────────────────────────────────────────────────── */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.filter-input {
+  background: var(--coal);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font);
+  color: #fff;
+  outline: none;
+}
+
+.filter-input:focus { border-color: var(--blue); }
+
+.filter-select {
+  background: var(--coal);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-family: var(--font);
+  color: #fff;
+  outline: none;
+  cursor: pointer;
+}
+
+.filter-select option { background: #1a1a1a; }
+
+.filter-reset {
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.35);
+  background: none;
+  border: none;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.filter-reset:hover { color: rgba(255,255,255,0.7); }
+
+.refresh-btn {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  background: none;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 7px 14px;
+  transition: all 0.2s;
+}
+.refresh-btn:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+/* ── Table ──────────────────────────────────────────────────── */
+.table-wrap {
+  overflow-x: auto;
+  background: var(--coal);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.15s;
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover { background: rgba(255,255,255,0.03); }
+
+td {
+  padding: 13px 14px;
+  vertical-align: middle;
+  color: rgba(255,255,255,0.82);
+}
+
+.td-id {
+  color: rgba(255,255,255,0.25);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.td-datetime {
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+.td-date { color: #fff; }
+.td-time { color: rgba(255,255,255,0.45); font-size: 12px; margin-top: 1px; }
+
+.td-name { font-weight: 600; }
+
+.td-phone a {
+  color: var(--accent);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+.td-phone a:hover { text-decoration: underline; }
+
+.td-regnr {
+  font-family: monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #fff;
+}
+
+.td-note {
+  max-width: 200px;
+  color: rgba(255,255,255,0.45);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Status badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.badge-pending   { background: var(--yellow-lt); color: var(--yellow); }
+.badge-confirmed { background: #dce9ff;          color: #1a3c7a; }
+.badge-completed { background: var(--green-lt);  color: var(--green); }
+.badge-cancelled { background: var(--red-lt);    color: var(--red); }
+
+/* Status select */
+.status-select {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font);
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.status-select:hover { border-color: rgba(255,255,255,0.3); }
+.status-select option { background: #1a1a1a; }
+
+/* SMS indicator */
+.sms-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+.sms-dot.sent { color: var(--green); }
+.sms-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Delete btn */
+.del-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.2);
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px;
+  transition: color 0.2s;
+  border-radius: 2px;
+}
+.del-btn:hover { color: #e87070; }
+
+/* ── Empty state ────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: rgba(255,255,255,0.25);
+}
+.empty-state p {
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* ── Toast ──────────────────────────────────────────────────── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #1e3a1e;
+  border: 1px solid #2a6a10;
+  color: #a0e070;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 4px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s, transform 0.25s;
+  pointer-events: none;
+  z-index: 999;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.error {
+  background: #3a1e1e;
+  border-color: #8a1010;
+  color: #e08080;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 700px) {
+  .admin-main { padding: 16px; }
+  .stats-row { grid-template-columns: repeat(3, 1fr); }
+  .td-note, th:nth-child(7), td:nth-child(7) { display: none; }
+  .admin-nav { padding: 0 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Login ─────────────────────────────────────────────────── -->
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <svg height="36" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="19" width="36" height="6" fill="#1c3c70" opacity="0.9"/>
+        <rect x="0" y="13" width="36" height="3" fill="white" opacity="0.18"/>
+        <rect x="0" y="28" width="36" height="3" fill="white" opacity="0.18"/>
+        <text x="44" y="34" font-family="'Barlow Condensed', sans-serif" font-weight="800" font-size="30" letter-spacing="-0.5" fill="white">BK</text>
+        <rect x="44" y="38" width="52" height="1.5" fill="#1c3c70"/>
+        <text x="44" y="44" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="11" letter-spacing="4" fill="rgba(255,255,255,0.5)">DÄCK</text>
+      </svg>
+    </div>
+    <h1>Admininloggning</h1>
+    <div class="login-field">
+      <label>Lösenord</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" id="loginBtn" onclick="doLogin()">Logga in</button>
+    <div class="login-error" id="loginError">Fel lösenord. Försök igen.</div>
+  </div>
+</div>
+
+<!-- ── Admin app ──────────────────────────────────────────────── -->
+<div id="adminApp">
+  <nav class="admin-nav">
+    <div class="admin-nav-logo">
+      <svg height="30" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="19" width="36" height="6" fill="#1c3c70" opacity="0.7"/>
+        <rect x="0" y="13" width="36" height="3" fill="white" opacity="0.1"/>
+        <rect x="0" y="28" width="36" height="3" fill="white" opacity="0.1"/>
+        <text x="44" y="34" font-family="'Barlow Condensed', sans-serif" font-weight="800" font-size="30" letter-spacing="-0.5" fill="white" opacity="0.6">BK</text>
+        <rect x="44" y="38" width="52" height="1.5" fill="#1c3c70" opacity="0.5"/>
+        <text x="44" y="44" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="11" letter-spacing="4" fill="rgba(255,255,255,0.3)">DÄCK</text>
+      </svg>
+      <span class="admin-nav-label">Bokningar</span>
+    </div>
+    <div class="admin-nav-right">
+      <span id="navBookingCount" style="font-size:12px; color:rgba(255,255,255,0.3);"></span>
+      <button class="nav-logout" onclick="logout()">Logga ut</button>
+    </div>
+  </nav>
+
+  <main class="admin-main">
+
+    <!-- Stats -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-card-num" id="statTotal">–</div>
+        <div class="stat-card-label">Totalt</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="statPending">–</div>
+        <div class="stat-card-label">Ej bekräftade</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="statConfirmed">–</div>
+        <div class="stat-card-label">Bekräftade</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="statCompleted">–</div>
+        <div class="stat-card-label">Utförda</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-num" id="statCancelled">–</div>
+        <div class="stat-card-label">Avbokade</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters">
+      <input type="date" class="filter-input" id="filterDate" onchange="loadBookings()" title="Filtrera på datum">
+      <select class="filter-select" id="filterStatus" onchange="loadBookings()">
+        <option value="all">Alla statusar</option>
+        <option value="pending">Ej bekräftad</option>
+        <option value="confirmed">Bekräftad</option>
+        <option value="completed">Utförd</option>
+        <option value="cancelled">Avbokad</option>
+      </select>
+      <button class="filter-reset" onclick="resetFilters()">Rensa filter</button>
+      <button class="refresh-btn" onclick="loadBookings()">Uppdatera</button>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap">
+      <table id="bookingsTable">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Datum &amp; Tid</th>
+            <th>Kund</th>
+            <th>E-post</th>
+            <th>Telefon</th>
+            <th>Reg-nr</th>
+            <th>Anteckning</th>
+            <th>Status</th>
+            <th>Review-SMS</th>
+            <th>Skapad</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="bookingsTbody">
+          <tr><td colspan="10"><div class="empty-state"><p>Laddar...</p></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────
+let authToken = sessionStorage.getItem('bk_admin_token') ?? null;
+
+const STATUS_LABELS = {
+  pending:   'Ej bekräftad',
+  confirmed: 'Bekräftad',
+  completed: 'Utförd',
+  cancelled: 'Avbokad',
+};
+
+// ── Init ─────────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('loginPassword').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+  });
+
+  if (authToken) {
+    showApp();
+  }
+});
+
+// ── Login ────────────────────────────────────────────────────────
+async function doLogin() {
+  const password = document.getElementById('loginPassword').value;
+  const errEl    = document.getElementById('loginError');
+  const btn      = document.getElementById('loginBtn');
+
+  errEl.style.display = 'none';
+  btn.textContent = 'Loggar in…';
+  btn.disabled = true;
+
+  try {
+    const res  = await fetch('/api/admin/login', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ password }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      errEl.style.display = 'block';
+      btn.textContent = 'Logga in';
+      btn.disabled = false;
+      return;
+    }
+
+    authToken = data.token;
+    sessionStorage.setItem('bk_admin_token', authToken);
+    showApp();
+  } catch {
+    errEl.textContent = 'Kunde inte nå servern.';
+    errEl.style.display = 'block';
+    btn.textContent = 'Logga in';
+    btn.disabled = false;
+  }
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminApp').style.display = 'block';
+  loadBookings();
+}
+
+function logout() {
+  sessionStorage.removeItem('bk_admin_token');
+  authToken = null;
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminApp').style.display = 'none';
+  document.getElementById('loginPassword').value = '';
+}
+
+// ── Load bookings ────────────────────────────────────────────────
+async function loadBookings() {
+  const date   = document.getElementById('filterDate').value;
+  const status = document.getElementById('filterStatus').value;
+
+  const params = new URLSearchParams();
+  if (date)               params.set('date', date);
+  if (status !== 'all')   params.set('status', status);
+
+  try {
+    const res = await fetch('/api/admin/bookings?' + params, {
+      headers: { Authorization: 'Bearer ' + authToken },
+    });
+
+    if (res.status === 401) { logout(); return; }
+
+    const bookings = await res.json();
+    renderTable(bookings);
+    renderStats(bookings);
+  } catch {
+    showToast('Kunde inte ladda bokningar', true);
+  }
+}
+
+// ── Render table ─────────────────────────────────────────────────
+function renderTable(bookings) {
+  const tbody = document.getElementById('bookingsTbody');
+
+  if (!bookings.length) {
+    tbody.innerHTML = `<tr><td colspan="10"><div class="empty-state">
+      <p>Inga bokningar hittades.</p></div></td></tr>`;
+    document.getElementById('navBookingCount').textContent = '';
+    return;
+  }
+
+  document.getElementById('navBookingCount').textContent =
+    bookings.length + ' bokning' + (bookings.length !== 1 ? 'ar' : '');
+
+  tbody.innerHTML = bookings.map(b => {
+    const noteText = [b.note, b.message].filter(Boolean).join(' · ') || '–';
+    const createdDate = b.created_at ? b.created_at.slice(0, 10) : '–';
+
+    return `<tr data-id="${b.id}">
+      <td class="td-id">#${b.id}</td>
+      <td class="td-datetime">
+        <div class="td-date">${formatDateSv(b.date)}</div>
+        <div class="td-time">${b.time}</div>
+      </td>
+      <td class="td-name">${esc(b.name)}</td>
+      <td style="font-size:12px;"><a href="mailto:${esc(b.email)}" style="color:rgba(255,255,255,0.5); transition:color 0.2s;" onmouseover="this.style.color='#c8a84b'" onmouseout="this.style.color='rgba(255,255,255,0.5)'">${esc(b.email || '–')}</a></td>
+      <td class="td-phone"><a href="tel:${esc(b.phone)}">${esc(b.phone)}</a></td>
+      <td class="td-regnr">${esc(b.regnr)}</td>
+      <td class="td-note" title="${esc(noteText)}">${esc(truncate(noteText, 60))}</td>
+      <td>
+        <select class="status-select" onchange="updateStatus(${b.id}, this.value)">
+          ${Object.entries(STATUS_LABELS).map(([val, label]) =>
+            `<option value="${val}"${b.status === val ? ' selected' : ''}>${label}</option>`
+          ).join('')}
+        </select>
+      </td>
+      <td>
+        <span class="sms-dot ${b.sms_review_sent ? 'sent' : ''}">
+          ${b.sms_review_sent ? 'Skickat' : 'Ej skickat'}
+        </span>
+      </td>
+      <td style="font-size:12px; color:rgba(255,255,255,0.3);">${createdDate}</td>
+      <td>
+        <button class="del-btn" onclick="deleteBooking(${b.id})" title="Ta bort bokning">✕</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Render stats ─────────────────────────────────────────────────
+function renderStats(bookings) {
+  const count = (s) => bookings.filter(b => b.status === s).length;
+  document.getElementById('statTotal').textContent     = bookings.length;
+  document.getElementById('statPending').textContent   = count('pending');
+  document.getElementById('statConfirmed').textContent = count('confirmed');
+  document.getElementById('statCompleted').textContent = count('completed');
+  document.getElementById('statCancelled').textContent = count('cancelled');
+}
+
+// ── Update status ────────────────────────────────────────────────
+async function updateStatus(id, status) {
+  try {
+    const res = await fetch(`/api/admin/bookings/${id}/status`, {
+      method:  'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization:  'Bearer ' + authToken,
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    if (!res.ok) { showToast('Kunde inte uppdatera status', true); return; }
+    showToast('Status uppdaterad');
+    // Reload quietly to update stats
+    loadBookings();
+  } catch {
+    showToast('Nätverksfel', true);
+  }
+}
+
+// ── Delete booking ───────────────────────────────────────────────
+async function deleteBooking(id) {
+  if (!confirm(`Ta bort bokning #${id}? Åtgärden kan inte ångras.`)) return;
+
+  try {
+    const res = await fetch(`/api/admin/bookings/${id}`, {
+      method:  'DELETE',
+      headers: { Authorization: 'Bearer ' + authToken },
+    });
+
+    if (!res.ok) { showToast('Kunde inte ta bort bokning', true); return; }
+    showToast('Bokning borttagen');
+    loadBookings();
+  } catch {
+    showToast('Nätverksfel', true);
+  }
+}
+
+// ── Filters ──────────────────────────────────────────────────────
+function resetFilters() {
+  document.getElementById('filterDate').value = '';
+  document.getElementById('filterStatus').value = 'all';
+  loadBookings();
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+function esc(str) {
+  return String(str ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function truncate(str, n) {
+  return str.length > n ? str.slice(0, n) + '…' : str;
+}
+
+function formatDateSv(dateStr) {
+  if (!dateStr) return '–';
+  const [y, m, d] = dateStr.split('-');
+  const months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+  return `${Number(d)} ${months[Number(m) - 1]} ${y}`;
+}
+
+// ── Toast ─────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, isError = false) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.className = 'toast' + (isError ? ' error' : '') + ' show';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+}
+</script>
+
+</body>
+</html>
