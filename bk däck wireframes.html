@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BK Däck – Wireframes</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f5f4f0; font-family: 'Space Mono', monospace; }
+
+  /* Wireframe sketch style */
+  .wf { font-family: 'Space Mono', monospace; background: #fafaf8; border: 2px solid #222; position: relative; }
+
+  .wf-label {
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    color: #888;
+    position: absolute;
+    top: -22px;
+    left: 0;
+  }
+
+  .wf-box {
+    border: 1.5px solid #bbb;
+    background: #f0eeea;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Caveat', cursive;
+    color: #888;
+    font-size: 14px;
+    text-align: center;
+    padding: 4px 8px;
+  }
+
+  .wf-box.dark {
+    background: #222;
+    border-color: #222;
+    color: #fff;
+  }
+
+  .wf-box.accent {
+    background: #1e3a6e;
+    border-color: #1e3a6e;
+    color: #fff;
+  }
+
+  .wf-box.hatched {
+    background: repeating-linear-gradient(
+      45deg,
+      #e8e6e0,
+      #e8e6e0 4px,
+      #f0eeea 4px,
+      #f0eeea 10px
+    );
+  }
+
+  .wf-img {
+    border: 1.5px solid #bbb;
+    background: repeating-linear-gradient(
+      -45deg,
+      #ddd,
+      #ddd 3px,
+      #eee 3px,
+      #eee 12px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    color: #999;
+    position: relative;
+  }
+
+  .wf-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.15));
+  }
+
+  .wf-text {
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .wf-text.h1 { font-size: 24px; color: #111; font-weight: 700; }
+  .wf-text.h2 { font-size: 18px; color: #222; font-weight: 700; }
+  .wf-text.h3 { font-size: 15px; color: #333; font-weight: 600; }
+
+  .wf-divider {
+    height: 1.5px;
+    background: #ccc;
+    width: 100%;
+  }
+
+  .wf-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1.5px solid #ddd;
+    background: #fafaf8;
+  }
+
+  .wf-nav-links {
+    display: flex;
+    gap: 14px;
+  }
+
+  .wf-nav-link {
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    color: #666;
+    padding: 3px 0;
+    border-bottom: 1px dashed #ccc;
+  }
+
+  .annotation {
+    font-family: 'Caveat', cursive;
+    font-size: 12px;
+    color: #e05c00;
+    position: absolute;
+  }
+
+  .annotation-line {
+    position: absolute;
+    border-left: 1px dashed #e05c00;
+    border-bottom: 1px dashed #e05c00;
+  }
+
+  .section-label {
+    font-family: 'Caveat', cursive;
+    font-size: 11px;
+    color: #aaa;
+    border-top: 1px dashed #ddd;
+    padding-top: 2px;
+    margin-top: 2px;
+    width: 100%;
+    text-align: right;
+  }
+
+  .wf-star {
+    color: #e0a800;
+    font-size: 12px;
+    letter-spacing: -1px;
+  }
+
+  .wf-chip {
+    display: inline-block;
+    border: 1px solid #bbb;
+    border-radius: 3px;
+    padding: 2px 8px;
+    font-family: 'Caveat', cursive;
+    font-size: 12px;
+    color: #666;
+    margin: 2px;
+  }
+
+  .wf-card {
+    border: 1.5px solid #ccc;
+    background: #fafaf8;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .option-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 24px;
+    height: 24px;
+    background: #e05c00;
+    color: white;
+    border-radius: 50%;
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+<script type="text/babel">
+
+// ─── WIREFRAME A: Klassisk vertikal layout ─────────────────────────────────
+function WireframeA() {
+  return (
+    <div className="wf" style={{width: 340, fontSize: 12}}>
+      {/* Nav */}
+      <div className="wf-nav">
+        <div className="wf-box dark" style={{width: 60, height: 24, fontSize: 11}}>LOGO</div>
+        <div className="wf-nav-links">
+          <span className="wf-nav-link">Tjänster</span>
+          <span className="wf-nav-link">Boka</span>
+          <span className="wf-nav-link">Om oss</span>
+          <span className="wf-nav-link">Kontakt</span>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className="wf-img" style={{height: 160, position: 'relative'}}>
+        <span style={{position: 'relative', zIndex: 1, color: '#fff', fontFamily: 'Caveat', fontSize: 13}}>hero-bild (foto)</span>
+        <div style={{position: 'absolute', bottom: 0, left: 0, right: 0, padding: '12px 16px', zIndex: 2, background: 'linear-gradient(transparent, rgba(0,0,0,0.7))'}}>
+          <div className="wf-text h1" style={{color: '#fff', fontSize: 20}}>Däckexperten i Göteborg</div>
+          <div className="wf-text" style={{color: '#ddd', fontSize: 12, marginTop: 4}}>Snabb service — boka online</div>
+          <div style={{display: 'flex', gap: 8, marginTop: 8}}>
+            <div className="wf-box accent" style={{height: 28, flex: 1, fontSize: 12}}>Boka däckskifte</div>
+            <div className="wf-box" style={{height: 28, flex: 1, fontSize: 12, border: '1.5px solid #fff', color: '#fff', background: 'transparent'}}>Ring oss</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Tjänster */}
+      <div style={{padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8}}>
+        <div className="wf-text h2">Våra tjänster</div>
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8}}>
+          {['Däckskifte', 'Däckförvaring', 'Däckförsäljning', 'Fälgförsäljning'].map(s => (
+            <div key={s} className="wf-card">
+              <div className="wf-box hatched" style={{height: 36, fontSize: 11}}>[ikon]</div>
+              <div className="wf-text h3">{s}</div>
+              <div className="wf-text" style={{fontSize: 11}}>Kort beskrivning av tjänsten...</div>
+            </div>
+          ))}
+        </div>
+        <div className="section-label">TJÄNSTER</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Bokning */}
+      <div style={{padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8}}>
+        <div className="wf-text h2">Boka tid</div>
+        <div className="wf-box hatched" style={{height: 120, fontSize: 12}}>
+          Visuell kalender<br/>(välj datum)
+        </div>
+        <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 4}}>
+          {['09:00', '10:00', '11:00', '13:00', '14:00', '15:00'].map(t => (
+            <div key={t} className="wf-box" style={{height: 24, fontSize: 11}}>{t}</div>
+          ))}
+        </div>
+        <div className="wf-box" style={{height: 28, fontSize: 12, border: '1.5px solid #aaa'}}>Namn / Tel / Reg-nr</div>
+        <div className="wf-box accent" style={{height: 32, fontSize: 13}}>Bekräfta bokning</div>
+        <div className="section-label">BOKNING</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Om oss + Reviews */}
+      <div style={{padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8}}>
+        <div className="wf-text h2">Om BK Däck</div>
+        <div className="wf-text" style={{fontSize: 12}}>Kort text om bolaget, erfarenhet, värderingar...</div>
+        <div style={{display: 'flex', flexDirection: 'column', gap: 6}}>
+          {[{stars: '★★★★★', text: '"Snabb och proffsig service!"'}, {stars: '★★★★★', text: '"Alltid nöjd, rekommenderas!"'}].map((r, i) => (
+            <div key={i} className="wf-card">
+              <div className="wf-star">{r.stars}</div>
+              <div className="wf-text" style={{fontSize: 11}}>{r.text}</div>
+              <div className="wf-text" style={{fontSize: 10, color: '#aaa'}}>— Google recensent</div>
+            </div>
+          ))}
+        </div>
+        <div className="section-label">OM OSS + REVIEWS</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Karta + Öppettider */}
+      <div style={{padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8}}>
+        <div style={{display: 'grid', gridTemplateColumns: '3fr 2fr', gap: 10}}>
+          <div className="wf-box hatched" style={{height: 100, fontSize: 12}}>Google Maps</div>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 4}}>
+            <div className="wf-text h3">Öppettider</div>
+            <div className="wf-text" style={{fontSize: 11}}>Mån–Fre: 09–17</div>
+            <div className="wf-text" style={{fontSize: 11}}>Lör: 10–15</div>
+            <div className="wf-text" style={{fontSize: 11}}>Sön: Stängt</div>
+          </div>
+        </div>
+        <div className="section-label">KARTA + ÖPPETTIDER</div>
+      </div>
+
+      {/* Footer */}
+      <div className="wf-box dark" style={{padding: '10px 16px', flexDirection: 'column', alignItems: 'flex-start', gap: 4, height: 'auto'}}>
+        <div className="wf-text" style={{color: '#fff', fontSize: 12}}>BK Däck HB · Ringögatan 13 · 076-223 28 23</div>
+        <div className="wf-text" style={{color: '#888', fontSize: 11}}>© 2026 BK Däck</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── WIREFRAME B: Split-screen hero + sidebar-bokning ─────────────────────
+function WireframeB() {
+  return (
+    <div className="wf" style={{width: 340, fontSize: 12}}>
+      {/* Sticky nav med telefon */}
+      <div style={{background: '#111', padding: '8px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+        <div className="wf-box dark" style={{width: 60, height: 22, fontSize: 11, border: '1px solid #444'}}>LOGO</div>
+        <div className="wf-text" style={{color: '#aaa', fontSize: 11}}>076-223 28 23</div>
+        <div className="wf-box accent" style={{height: 24, padding: '0 8px', fontSize: 11}}>Boka</div>
+      </div>
+
+      {/* Hero – fullbredd med overlay-text centrerat */}
+      <div className="wf-img" style={{height: 200, position: 'relative'}}>
+        <div style={{position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 10, padding: 16}}>
+          <div className="wf-text" style={{color: '#aaa', fontSize: 13, fontFamily: 'Caveat', letterSpacing: 3}}>DÄCKVERKSTAD · GÖTEBORG</div>
+          <div className="wf-text h1" style={{color: '#fff', fontSize: 26, textAlign: 'center'}}>BK DÄCK</div>
+          <div className="wf-text" style={{color: '#ddd', fontSize: 13, textAlign: 'center'}}>Service · Kvalitet · Trygghet</div>
+          <div style={{display: 'flex', gap: 8, marginTop: 6}}>
+            <div className="wf-box accent" style={{height: 32, padding: '0 14px', fontSize: 13}}>Boka däckskifte</div>
+            <div className="wf-box" style={{height: 32, padding: '0 14px', fontSize: 13, border: '1.5px solid #fff', color: '#fff', background: 'transparent'}}>Kontakta oss</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Snabb-info strip */}
+      <div style={{background: '#1e3a6e', display: 'flex', justifyContent: 'space-around', padding: '8px 16px'}}>
+        {['Snabb service', 'Boka online', 'Göteborg'].map(t => (
+          <div key={t} className="wf-text" style={{color: '#fff', fontSize: 12}}>✓ {t}</div>
+        ))}
+      </div>
+
+      {/* Tjänster – horisontell scroll-indikation */}
+      <div style={{padding: '14px 16px'}}>
+        <div className="wf-text h2" style={{marginBottom: 8}}>Tjänster</div>
+        <div style={{display: 'flex', gap: 8, overflowX: 'hidden'}}>
+          {['Däckskifte', 'Förvaring', 'Försäljning', 'Fälgar'].map((s, i) => (
+            <div key={s} className="wf-card" style={{minWidth: 72, alignItems: 'center', padding: 8}}>
+              <div className="wf-box hatched" style={{width: 36, height: 36, border: '1px solid #bbb'}}></div>
+              <div className="wf-text" style={{fontSize: 11, textAlign: 'center', marginTop: 4}}>{s}</div>
+            </div>
+          ))}
+        </div>
+        <div className="section-label">TJÄNSTER</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Bokning – steg-för-steg */}
+      <div style={{padding: '14px 16px'}}>
+        <div className="wf-text h2" style={{marginBottom: 8}}>Boka tid</div>
+        <div style={{display: 'flex', gap: 0, marginBottom: 10}}>
+          {['1 Tjänst', '2 Datum', '3 Tid', '4 Info'].map((step, i) => (
+            <div key={step} style={{flex: 1, textAlign: 'center', padding: '4px 2px', background: i === 0 ? '#1e3a6e' : '#eee', borderRight: '1px solid #ddd'}}>
+              <div className="wf-text" style={{color: i === 0 ? '#fff' : '#999', fontSize: 10}}>{step}</div>
+            </div>
+          ))}
+        </div>
+        <div className="wf-box hatched" style={{height: 100, marginBottom: 8, fontSize: 12}}>Välj tjänst (radio-knappar)</div>
+        <div className="wf-box accent" style={{height: 28, fontSize: 12}}>Nästa →</div>
+        <div className="section-label">BOKNING STEG-FÖR-STEG</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Reviews */}
+      <div style={{padding: '14px 16px'}}>
+        <div className="wf-text h2" style={{marginBottom: 8}}>Vad kunderna säger</div>
+        <div style={{display: 'flex', gap: 8}}>
+          {['"Bästa däckverkstan i Göteborg!"', '"Proffs i alla lägen"'].map((r, i) => (
+            <div key={i} className="wf-card" style={{flex: 1, fontSize: 11}}>
+              <div className="wf-star">★★★★★</div>
+              <div className="wf-text" style={{fontSize: 11}}>{r}</div>
+            </div>
+          ))}
+        </div>
+        <div className="section-label">GOOGLE REVIEWS</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Karta */}
+      <div style={{padding: '14px 16px'}}>
+        <div className="wf-text h2" style={{marginBottom: 8}}>Hitta hit</div>
+        <div className="wf-box hatched" style={{height: 120, marginBottom: 8, fontSize: 12}}>Google Maps embed</div>
+        <div style={{display: 'flex', gap: 16}}>
+          <div className="wf-text" style={{fontSize: 11}}>Ringögatan 13<br/>417 07 Göteborg</div>
+          <div className="wf-text" style={{fontSize: 11}}>Mån–Fre 09–17<br/>Lör 10–15<br/>Sön Stängt</div>
+        </div>
+        <div className="section-label">KARTA</div>
+      </div>
+
+      {/* Footer */}
+      <div style={{background: '#111', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 4}}>
+        <div className="wf-text" style={{color: '#fff', fontSize: 12}}>BK Däck HB</div>
+        <div className="wf-text" style={{color: '#888', fontSize: 11}}>Ringögatan 13 · 076-223 28 23</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── WIREFRAME C: Bold magazine-stil med sidepanel ─────────────────────────
+function WireframeC() {
+  return (
+    <div className="wf" style={{width: 340, fontSize: 12}}>
+      {/* Hero – stor typografi, bild till höger */}
+      <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', height: 200, position: 'relative'}}>
+        <div style={{background: '#111', padding: '16px 14px', display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 8}}>
+          <div className="wf-box dark" style={{width: 50, height: 20, fontSize: 10, border: '1px solid #444'}}>LOGO</div>
+          <div className="wf-text h1" style={{color: '#fff', fontSize: 22, lineHeight: 1.1}}>BK<br/>DÄCK</div>
+          <div className="wf-text" style={{color: '#aaa', fontSize: 11}}>Göteborg sedan dag ett</div>
+          <div className="wf-box accent" style={{height: 26, fontSize: 11}}>Boka nu</div>
+        </div>
+        <div className="wf-img" style={{height: '100%'}}></div>
+      </div>
+
+      {/* Horisontell nav under hero */}
+      <div style={{background: '#1e3a6e', display: 'flex', overflow: 'hidden'}}>
+        {['Tjänster', 'Boka', 'Priser', 'Om oss', 'Kontakt'].map((item, i) => (
+          <div key={item} style={{flex: 1, padding: '8px 4px', textAlign: 'center', borderRight: '1px solid rgba(255,255,255,0.15)', background: i === 1 ? 'rgba(255,255,255,0.15)' : 'transparent'}}>
+            <div className="wf-text" style={{color: '#fff', fontSize: 11}}>{item}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Tjänster – listvy med pris-platshållare */}
+      <div style={{padding: '14px 16px'}}>
+        <div className="wf-text h2" style={{marginBottom: 8}}>Tjänster & Priser</div>
+        {[['Däckskifte', 'från 399 kr'], ['Däckförvaring / säsong', 'från 599 kr'], ['Däckförsäljning', 'offert'], ['Fälgförsäljning', 'offert']].map(([name, price]) => (
+          <div key={name} style={{display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px dashed #ddd', alignItems: 'center'}}>
+            <div className="wf-text">{name}</div>
+            <div className="wf-chip">{price}</div>
+          </div>
+        ))}
+        <div className="section-label">TJÄNSTER + PRISER</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Bokning – kompakt med kalender */}
+      <div style={{padding: '14px 16px', background: '#f7f6f3'}}>
+        <div className="wf-text h2" style={{marginBottom: 8}}>Boka tid</div>
+        <div style={{display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 8}}>
+          <div className="wf-box hatched" style={{height: 110, fontSize: 12}}>Kalender<br/>maj 2026</div>
+          <div style={{display: 'flex', flexDirection: 'column', gap: 4}}>
+            <div className="wf-text" style={{fontSize: 11, color: '#999'}}>Lediga tider</div>
+            {['09:00', '10:00', '13:00', '14:00'].map(t => (
+              <div key={t} className="wf-box" style={{height: 22, fontSize: 11}}>{t}</div>
+            ))}
+          </div>
+        </div>
+        <div style={{display: 'flex', flexDirection: 'column', gap: 4, marginTop: 8}}>
+          <div className="wf-box" style={{height: 26, fontSize: 11}}>Namn + Telefon</div>
+          <div className="wf-box" style={{height: 26, fontSize: 11}}>Reg-nr + Tjänst</div>
+          <div className="wf-box accent" style={{height: 30, fontSize: 12}}>Skicka bokning</div>
+        </div>
+        <div className="section-label">BOKNING</div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Reviews + Om oss – 2 kolumner */}
+      <div style={{padding: '14px 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10}}>
+        <div>
+          <div className="wf-text h3" style={{marginBottom: 6}}>Om oss</div>
+          <div className="wf-text" style={{fontSize: 11}}>Professionell däckservice i Göteborg. Erfarna mekaniker.</div>
+        </div>
+        <div>
+          <div className="wf-text h3" style={{marginBottom: 6}}>Recensioner</div>
+          <div className="wf-star" style={{fontSize: 14}}>★★★★★</div>
+          <div className="wf-text" style={{fontSize: 11}}>4.9 / 5 · Google</div>
+          <div className="wf-text" style={{fontSize: 10, color: '#aaa', marginTop: 3}}>Baserat på X recensioner</div>
+        </div>
+      </div>
+
+      <div className="wf-divider" />
+
+      {/* Karta + Öppettider */}
+      <div style={{padding: '14px 16px'}}>
+        <div className="wf-box hatched" style={{height: 100, marginBottom: 8, fontSize: 12}}>Google Maps</div>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div className="wf-text" style={{fontSize: 11}}>Ringögatan 13, Göteborg<br/>076-223 28 23</div>
+          <div className="wf-text" style={{fontSize: 11, textAlign: 'right'}}>Mån–Fre 09–17<br/>Lör 10–15</div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{background: '#111', padding: '10px 16px'}}>
+        <div className="wf-text" style={{color: '#666', fontSize: 11, textAlign: 'center'}}>BK Däck HB · Org.nr 969788-9526 · © 2026</div>
+      </div>
+    </div>
+  );
+}
+
+// ─── APP ──────────────────────────────────────────────────────────────────
+function App() {
+  return (
+    <DesignCanvas title="BK Däck – Wireframes">
+      <DCSection id="layouts" title="Layoutalternativ — 3 riktningar">
+        <DCArtboard id="a" label="A — Klassisk vertikal" width={340} height={980}>
+          <WireframeA />
+        </DCArtboard>
+        <DCArtboard id="b" label="B — Centrerat hero + steg-för-steg bokning" width={340} height={1010}>
+          <WireframeB />
+        </DCArtboard>
+        <DCArtboard id="c" label="C — Split-screen hero + prislista" width={340} height={1020}>
+          <WireframeC />
+        </DCArtboard>
+      </DCSection>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+<div id="root"></div>
+</body>
+</html>
