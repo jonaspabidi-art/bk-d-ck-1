@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BK Däck – Däckverkstad i Göteborg</title>
+<title>BK Däck – Däckverkstad i Göteborg | Montering & Balansering</title>
+<meta name="description" content="BK Däck erbjuder professionell däckmontering, balansering och däckskifte i Göteborg. Ring 076-223 28 23 eller besök vår verkstad.">
+<link rel="canonical" href="https://bkdeck123.netlify.app/">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800;900&family=Barlow+Condensed:wght@600;700;800;900&display=swap" rel="stylesheet">
 <style>
 /* ── Reset & Base ─────────────────────────────────────────── */
@@ -1476,6 +1478,19 @@ footer {
   .price-extra-card { padding: 24px 20px; }
 }
 
+/* ── Accessibility ────────────────────────────────────────── */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ── Scroll animations ────────────────────────────────────── */
 .fade-up {
   opacity: 0;
@@ -1498,8 +1513,8 @@ footer {
 
 <!-- ── Nav ─────────────────────────────────────────────────── -->
 <nav id="nav">
-  <a class="nav-logo" href="#hero" aria-label="BK Däck hem">
-    <svg height="38" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="BK Däck">
+  <a class="nav-logo" href="#hero" aria-label="BK Däck logotyp">
+    <svg height="38" viewBox="0 0 90 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="BK Däck logotyp">
       <text x="45" y="33" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-weight="900" font-size="34" fill="white">BK</text>
       <rect x="0" y="40" width="24" height="1.5" fill="rgba(255,255,255,0.55)"/>
       <text x="45" y="47" text-anchor="middle" font-family="'Barlow Condensed', sans-serif" font-weight="700" font-size="9" letter-spacing="4" fill="rgba(255,255,255,0.75)">DÄCK</text>
@@ -1540,8 +1555,11 @@ footer {
   <div class="hero-bg" id="heroBg"></div>
   <div class="hero-overlay"></div>
   <div class="hero-content">
+    <h1 class="hero-title">
+      <span class="visually-hidden">Däckverkstad i Göteborg</span>
+      <span aria-hidden="true">BK<br>Däck</span>
+    </h1>
     <p class="hero-eyebrow">Däckverkstad · Göteborg</p>
-    <h1 class="hero-title">BK<br>Däck</h1>
     <p class="hero-sub">Service, kvalitet och trygghet — professionell däckservice i Göteborg sedan dag ett.</p>
     <div class="hero-cta">
       <a href="#bokning" class="btn-primary">Boka däckskifte</a>
@@ -1860,7 +1878,7 @@ footer {
 
 <!-- ── Lager ───────────────────────────────────────────────────── -->
 <section id="lager">
-  <div class="lager-bg"></div>
+  <div class="lager-bg" role="img" aria-label="Däckmontering och balansering Göteborg"></div>
   <div class="lager-overlay"></div>
   <div class="lager-content">
     <div>
@@ -2085,7 +2103,7 @@ footer {
         allowfullscreen=""
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
-        title="BK Däck på kartan">
+        title="BK Däck verkstad Göteborg karta">
       </iframe>
     </div>
   </div>
@@ -2095,8 +2113,8 @@ footer {
 <footer>
   <div class="container">
     <div class="footer-inner">
-      <a class="footer-logo" href="#hero" aria-label="BK Däck hem">
-        <svg height="30" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="BK Däck">
+      <a class="footer-logo" href="#hero" aria-label="BK Däck logotyp">
+        <svg height="30" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="BK Däck logotyp">
           <rect x="0" y="19" width="36" height="6" rx="0" fill="#1c3c70" opacity="0.7"/>
           <rect x="0" y="13" width="36" height="3" rx="0" fill="white" opacity="0.1"/>
           <rect x="0" y="28" width="36" height="3" rx="0" fill="white" opacity="0.1"/>
