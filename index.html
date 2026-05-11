@@ -1176,6 +1176,147 @@ footer {
   .hero-title { font-size: 52px; }
 }
 
+/* ── Prislista ────────────────────────────────────────────── */
+#prislista { background: #f2f1ed; }
+
+.price-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 2px;
+}
+
+.price-card {
+  background: var(--white);
+  padding: 32px 28px;
+}
+
+.price-card-title {
+  font-family: var(--font-cd);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--blue);
+  line-height: 1.4;
+}
+
+.price-card-subtitle {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--mid);
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.price-table tr {
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+
+.price-table tr:last-child { border-bottom: none; }
+
+.price-table td {
+  padding: 11px 0;
+  font-size: 14px;
+  color: var(--black);
+  line-height: 1;
+}
+
+.price-table td:last-child {
+  text-align: right;
+  font-family: var(--font-cd);
+  font-size: 15px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.price-table tr.price-highlight {
+  background: rgba(28,60,112,0.07);
+  margin: 0 -8px;
+}
+
+.price-table tr.price-highlight td {
+  padding: 11px 8px;
+}
+
+.price-popular-badge {
+  display: inline-block;
+  font-family: var(--font-cd);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--blue);
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 2px;
+  margin-left: 6px;
+  vertical-align: middle;
+  line-height: 1.5;
+}
+
+.price-extras {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+}
+
+.price-extra-card {
+  background: var(--coal);
+  padding: 28px 32px;
+}
+
+.price-extra-title {
+  font-family: var(--font-cd);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.price-extra-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  font-size: 14px;
+  color: rgba(255,255,255,0.6);
+  gap: 12px;
+}
+
+.price-extra-item:last-child { border-bottom: none; }
+
+.price-extra-item strong {
+  font-family: var(--font-cd);
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .price-grid { grid-template-columns: 1fr; }
+  .price-extras { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+  .price-card { padding: 24px 20px; }
+  .price-extra-card { padding: 24px 20px; }
+}
+
 /* ── Scroll animations ────────────────────────────────────── */
 .fade-up {
   opacity: 0;
@@ -1208,6 +1349,7 @@ footer {
   </a>
   <ul class="nav-links">
     <li><a href="#tjanster">Tjänster</a></li>
+    <li><a href="#prislista">Prislista</a></li>
     <li><a href="#bokning">Boka tid</a></li>
     <li><a href="#om-oss">Om oss</a></li>
     <li><a href="#reviews">Recensioner</a></li>
@@ -1226,6 +1368,7 @@ footer {
 <!-- Mobile nav -->
 <div class="nav-mobile" id="mobileNav" role="navigation" aria-label="Mobilmeny">
   <a href="#tjanster" class="mobile-link">Tjänster</a>
+  <a href="#prislista" class="mobile-link">Prislista</a>
   <a href="#bokning" class="mobile-link">Boka tid</a>
   <a href="#om-oss" class="mobile-link">Om oss</a>
   <a href="#reviews" class="mobile-link">Recensioner</a>
@@ -1617,6 +1760,88 @@ footer {
           <span class="review-date">Google · 2024</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Prislista ──────────────────────────────────────────────── -->
+<section id="prislista">
+  <div class="container">
+    <p class="section-label fade-up">Transparenta priser</p>
+    <h2 class="section-title fade-up fade-up-delay-1">Prislista</h2>
+
+    <div class="price-grid">
+
+      <div class="price-card fade-up fade-up-delay-1">
+        <div class="price-card-title">
+          Montering, balansering & skifte
+          <span class="price-card-subtitle">På bil</span>
+        </div>
+        <table class="price-table">
+          <tr><td>13" – 15"</td><td>150 kr/st</td></tr>
+          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>150 kr/st</td></tr>
+          <tr><td>18" – 19"</td><td>187,50 kr/st</td></tr>
+          <tr><td>20" – 21"</td><td>225 kr/st</td></tr>
+          <tr><td>22" – 24"</td><td>250 kr/st</td></tr>
+        </table>
+      </div>
+
+      <div class="price-card fade-up fade-up-delay-2">
+        <div class="price-card-title">
+          Montering & balansering
+          <span class="price-card-subtitle">Lösa hjul</span>
+        </div>
+        <table class="price-table">
+          <tr><td>13" – 15"</td><td>150 kr/st</td></tr>
+          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>150 kr/st</td></tr>
+          <tr><td>18" – 19"</td><td>187,50 kr/st</td></tr>
+          <tr><td>20" – 21"</td><td>225 kr/st</td></tr>
+          <tr><td>22" – 24"</td><td>250 kr/st</td></tr>
+        </table>
+      </div>
+
+      <div class="price-card fade-up fade-up-delay-3">
+        <div class="price-card-title">
+          Endast skifte
+          <span class="price-card-subtitle">&nbsp;</span>
+        </div>
+        <table class="price-table">
+          <tr><td>13" – 15"</td><td>250 kr/st</td></tr>
+          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>250 kr/st</td></tr>
+          <tr><td>18" – 19"</td><td>325 kr/st</td></tr>
+          <tr><td>20" – 21"</td><td>375 kr/st</td></tr>
+          <tr><td>22" – 24"</td><td>375 kr/st</td></tr>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="price-extras">
+
+      <div class="price-extra-card fade-up fade-up-delay-1">
+        <div class="price-extra-title">MC & Moped</div>
+        <div class="price-extra-item">
+          <span>MC – montering & balansering</span>
+          <strong>250 kr/st</strong>
+        </div>
+        <div class="price-extra-item">
+          <span>Moped – montering & balansering</span>
+          <strong>100 kr/st</strong>
+        </div>
+      </div>
+
+      <div class="price-extra-card fade-up fade-up-delay-2">
+        <div class="price-extra-title">Tillägg & info</div>
+        <div class="price-extra-item">
+          <span>Runflat-däck</span>
+          <strong>+250 kr/st</strong>
+        </div>
+        <div class="price-extra-item">
+          <span>Max dimension</span>
+          <strong>24"</strong>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
