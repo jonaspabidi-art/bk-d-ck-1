@@ -2591,7 +2591,7 @@ async function submitBooking() {
     : '';
 
   try {
-    var res = await fetch('/api/bookings', {
+    var res = await fetch('/.netlify/functions/booking', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
