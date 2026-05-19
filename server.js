@@ -6,7 +6,7 @@ const Database     = require('better-sqlite3');
 const cron         = require('node-cron');
 const jwt          = require('jsonwebtoken');
 const bcrypt       = require('bcryptjs');
-const nodemailer   = require('nodemailer');
+const { Resend }   = require('resend');
 const path         = require('path');
 
 const PORT       = process.env.PORT || 3000;
@@ -54,41 +54,72 @@ async function initAdminPassword() {
   }
 }
 
-// ── E-post via Nodemailer ────────────────────────────────────────
-function createTransporter() {
-  const user = process.env.EMAIL_USER;
-  const pass = process.env.EMAIL_APP_PASSWORD;
+// ── E-post via Resend ────────────────────────────────────────────
+async function sendEmail(to, subject, text, html) {
+  const apiKey = process.env.RESEND_API_KEY;
 
-  if (!user || !pass) return null;
-
-  return nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user, pass },
-  });
-}
-
-async function sendEmail(to, subject, text) {
-  const transporter = createTransporter();
-
-  if (!transporter) {
-    console.log('[Mail inaktivt – EMAIL_USER/EMAIL_APP_PASSWORD saknas]');
+  if (!apiKey) {
+    console.log('[Mail inaktivt – RESEND_API_KEY saknas]');
     console.log(`  Till: ${to}\n  Ämne: ${subject}\n  Meddelande: ${text.slice(0, 80)}…`);
     return false;
   }
 
   try {
-    const info = await transporter.sendMail({
-      from:    `"BK Däck" <${process.env.EMAIL_USER}>`,
+    const resend = new Resend(apiKey);
+    const { data, error } = await resend.emails.send({
+      from:    'BK Däck <onboarding@resend.dev>',
       to,
       subject,
       text,
+      ...(html ? { html } : {}),
     });
-    console.log('[Mail OK]', info.messageId, '→', to);
+
+    if (error) {
+      console.error('[Mail fel]', error.message);
+      return false;
+    }
+
+    console.log('[Mail OK]', data.id, '→', to);
     return true;
   } catch (err) {
     console.error('[Mail fel]', err.message);
     return false;
   }
+}
+
+function htmlWrap(content) {
+  return `<!DOCTYPE html><html lang="sv"><head><meta charset="UTF-8">
+<style>
+  body { margin:0; padding:0; background:#f2f1ed; font-family:Arial,sans-serif; }
+  .wrap { max-width:560px; margin:32px auto; background:#fff; border-radius:4px; overflow:hidden; }
+  .header { background:#1c3c70; padding:28px 32px; }
+  .header h1 { margin:0; color:#fff; font-size:22px; letter-spacing:0.04em; }
+  .header p { margin:4px 0 0; color:rgba(255,255,255,0.6); font-size:13px; }
+  .body { padding:32px; color:#1a1a1a; font-size:15px; line-height:1.6; }
+  .body h2 { margin:0 0 20px; font-size:18px; color:#1c3c70; }
+  .detail-row { display:flex; padding:10px 0; border-bottom:1px solid #eee; gap:12px; }
+  .detail-row:last-child { border-bottom:none; }
+  .detail-label { width:110px; flex-shrink:0; font-size:13px; font-weight:600; color:#5a5a5a; text-transform:uppercase; letter-spacing:0.05em; }
+  .detail-value { font-size:14px; color:#1a1a1a; font-weight:500; }
+  .footer { background:#f7f6f2; padding:20px 32px; font-size:12px; color:#9a9a9a; line-height:1.6; border-top:1px solid #eee; }
+  .badge { display:inline-block; background:#c8a84b; color:#1a1a1a; font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; padding:4px 10px; border-radius:2px; margin-bottom:20px; }
+</style></head><body>
+<div class="wrap">
+  <div class="header">
+    <h1>BK DÄCK</h1>
+    <p>Ringögatan 13 · 417 07 Göteborg · 076-223 28 23</p>
+  </div>
+  <div class="body">${content}</div>
+  <div class="footer">
+    BK Däck HB · Ringögatan 13, 417 07 Göteborg · Org.nr 969788-9526<br>
+    Frågor? Ring oss på <strong>076-223 28 23</strong> eller svara på detta mail.
+  </div>
+</div>
+</body></html>`;
+}
+
+function row(label, value) {
+  return `<div class="detail-row"><span class="detail-label">${label}</span><span class="detail-value">${value}</span></div>`;
 }
 
 // ── Express ─────────────────────────────────────────────────────
@@ -134,41 +165,59 @@ app.post('/api/bookings', (req, res) => {
   const id = result.lastInsertRowid;
   console.log(`[Bokning #${id}] ${name} | ${date} kl ${time} | ${regnr}`);
 
-  // Notis till butiken
+  const svc     = service ?? 'Däckskifte';
+  const custMail = email.trim().toLowerCase();
+  const noteStr  = note    ? note.trim()    : '';
+  const msgStr   = message ? message.trim() : '';
+
+  // ── Notis till butiken ───────────────────────────────────────
   const shopEmail = process.env.SHOP_EMAIL;
   if (shopEmail) {
-    sendEmail(
-      shopEmail,
-      `Ny bokning #${id} – ${name}`,
-      `Ny bokning mottagen via hemsidan.\n\n` +
-      `Kund:     ${name}\n` +
-      `Telefon:  ${phone}\n` +
-      `E-post:   ${email.trim().toLowerCase()}\n` +
-      `Reg-nr:   ${regnr.toUpperCase()}\n` +
-      `Datum:    ${date}\n` +
-      `Tid:      ${time}\n` +
-      `Tjänst:   ${service ?? 'Däckskifte'}\n` +
-      (note    ? `Anteckning: ${note}\n`    : '') +
-      (message ? `Meddelande: ${message}\n` : '') +
-      `\nAdminpanel: http://localhost:${PORT}/admin.html`
+    const shopText =
+      `Ny bokning #${id} via hemsidan.\n\n` +
+      `Kund:     ${name}\nTelefon:  ${phone}\nE-post:   ${custMail}\n` +
+      `Reg-nr:   ${regnr.toUpperCase()}\nDatum:    ${date}\nTid:      ${time}\n` +
+      `Tjänst:   ${svc}\n` +
+      (noteStr ? `Anteckning: ${noteStr}\n` : '') +
+      (msgStr  ? `Meddelande: ${msgStr}\n`  : '');
+
+    const shopHtml = htmlWrap(
+      `<span class="badge">Ny bokning #${id}</span>
+       <h2>Ny bokning mottagen</h2>
+       ${row('Kund', name)}
+       ${row('Telefon', phone)}
+       ${row('E-post', custMail)}
+       ${row('Reg-nr', regnr.toUpperCase())}
+       ${row('Datum', date)}
+       ${row('Tid', time)}
+       ${row('Tjänst', svc)}
+       ${noteStr ? row('Anteckning', noteStr) : ''}
+       ${msgStr  ? row('Meddelande', msgStr)  : ''}`
     );
+
+    sendEmail(shopEmail, `Ny bokning #${id} – ${name}`, shopText, shopHtml);
   }
 
-  // Bekräftelse till kunden
-  sendEmail(
-    email.trim().toLowerCase(),
-    `Bokningsbekräftelse – BK Däck`,
-    `Hej ${name},\n\n` +
-    `Tack för din bokning hos BK Däck! Vi har mottagit din förfrågan.\n\n` +
-    `Tjänst:  ${service ?? 'Däckskifte'}\n` +
-    `Datum:   ${date}\n` +
-    `Tid:     ${time}\n` +
-    `Reg-nr:  ${regnr.toUpperCase()}\n` +
-    (note ? `Anteckning: ${note}\n` : '') +
+  // ── Bekräftelse till kunden ──────────────────────────────────
+  const custText =
+    `Hej ${name},\n\nTack för din bokning hos BK Däck!\n\n` +
+    `Tjänst: ${svc}\nDatum:  ${date}\nTid:    ${time}\nReg-nr: ${regnr.toUpperCase()}\n` +
+    (noteStr ? `Anteckning: ${noteStr}\n` : '') +
     `\nVi bekräftar din tid via telefon eller SMS.\n` +
-    `Frågor? Ring oss på 076-223 28 23.\n\n` +
-    `Med vänliga hälsningar,\nBK Däck\nRingögatan 13, 417 07 Göteborg`
+    `Frågor? Ring oss på 076-223 28 23.\n\nMed vänliga hälsningar,\nBK Däck`;
+
+  const custHtml = htmlWrap(
+    `<h2>Tack för din bokning, ${name.split(' ')[0]}!</h2>
+     <p style="color:#5a5a5a;margin-bottom:24px;">Vi har tagit emot din förfrågan och återkommer med bekräftelse via telefon eller SMS.</p>
+     ${row('Tjänst', svc)}
+     ${row('Datum', date)}
+     ${row('Tid', time)}
+     ${row('Reg-nr', regnr.toUpperCase())}
+     ${noteStr ? row('Anteckning', noteStr) : ''}
+     <p style="margin-top:28px;font-size:14px;color:#5a5a5a;">Frågor? Ring oss på <strong>076-223 28 23</strong>.</p>`
   );
+
+  sendEmail(custMail, `Bokningsbekräftelse – BK Däck`, custText, custHtml);
 
   res.json({ ok: true, id });
 });
@@ -228,14 +277,19 @@ cron.schedule('* * * * *', () => {
     const url = process.env.GOOGLE_REVIEW_URL
       ?? 'https://search.google.com/local/writereview?placeid=YOUR_PLACE_ID';
 
-    sendEmail(
-      b.email,
-      `Hur gick det hos BK Däck, ${b.name}?`,
-      `Hej ${b.name}!\n\n` +
-      `Tack för att du besökte BK Däck idag. Vi hoppas att allt gick bra med din ${b.service.toLowerCase()}.\n\n` +
+    const reviewText =
+      `Hej ${b.name}!\n\nTack för att du besökte BK Däck. Vi hoppas att allt gick bra.\n\n` +
       `Dela gärna din upplevelse – det tar bara en minut:\n${url}\n\n` +
-      `Med vänliga hälsningar,\nBK Däck\nRingögatan 13, 417 07 Göteborg\n076-223 28 23`
+      `Med vänliga hälsningar,\nBK Däck`;
+
+    const reviewHtml = htmlWrap(
+      `<h2>Hur gick det, ${b.name.split(' ')[0]}?</h2>
+       <p style="color:#5a5a5a;margin-bottom:24px;">Tack för att du besökte BK Däck! Vi hoppas att du är nöjd med din <strong>${b.service.toLowerCase()}</strong>.</p>
+       <p style="margin-bottom:28px;">Har du en minut? Lämna gärna ett omdöme på Google — det hjälper oss och andra kunder.</p>
+       <a href="${url}" style="display:inline-block;background:#1c3c70;color:#fff;text-decoration:none;padding:14px 28px;font-weight:700;font-size:14px;letter-spacing:0.05em;border-radius:4px;">Skriv ett omdöme →</a>`
     );
+
+    sendEmail(b.email, `Hur gick det hos BK Däck, ${b.name}?`, reviewText, reviewHtml);
 
     db.prepare('UPDATE bookings SET review_sent = 1 WHERE id = ?').run(b.id);
     console.log(`[Review-mail] Skickat → ${b.name} (bokning #${b.id})`);

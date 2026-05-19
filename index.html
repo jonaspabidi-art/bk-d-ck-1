@@ -1337,6 +1337,131 @@ footer {
   .lager-cta-phone, .lager-cta-visit { justify-content: center; }
 }
 
+/* ── Erbjudande ───────────────────────────────────────────── */
+#erbjudande {
+  background: var(--blue);
+  overflow: hidden;
+}
+
+.erbj-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.erbj-text {
+  padding: 80px 60px 80px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0;
+}
+
+.erbj-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-cd);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+
+.erbj-kicker::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--accent);
+}
+
+.erbj-title {
+  font-family: var(--font-cd);
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.erbj-price {
+  font-family: var(--font-cd);
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.erbj-price span {
+  font-size: 0.38em;
+  font-weight: 700;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.erbj-desc {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.65;
+  max-width: 380px;
+  margin-bottom: 32px;
+  text-wrap: pretty;
+}
+
+.erbj-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--accent);
+  color: var(--black);
+  font-family: var(--font-cd);
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 15px 28px;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: opacity 0.2s;
+}
+
+.erbj-cta:hover { opacity: 0.88; }
+
+.erbj-img {
+  position: relative;
+  overflow: hidden;
+  min-height: 420px;
+}
+
+.erbj-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(30%) brightness(0.75);
+}
+
+@media (max-width: 900px) {
+  .erbj-inner { grid-template-columns: 1fr; }
+  .erbj-text { padding: 60px 32px; }
+  .erbj-img { min-height: 300px; position: relative; }
+  .erbj-img img { position: relative; height: 300px; inset: auto; }
+}
+
+@media (max-width: 600px) {
+  .erbj-text { padding: 60px 20px; }
+}
+
 /* ── Prislista ────────────────────────────────────────────── */
 #prislista { background: #f2f1ed; }
 
@@ -1476,6 +1601,54 @@ footer {
 @media (max-width: 600px) {
   .price-card { padding: 24px 20px; }
   .price-extra-card { padding: 24px 20px; }
+}
+
+/* ── Service picker ───────────────────────────────────────── */
+.service-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.service-pick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 14px 16px;
+  border: 1.5px solid #ddd;
+  border-radius: var(--radius);
+  background: #f7f6f2;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s, background 0.15s;
+  width: 100%;
+}
+
+.service-pick-btn:hover {
+  border-color: var(--blue);
+  background: #f0f3f8;
+}
+
+.service-pick-btn.active {
+  border-color: var(--blue);
+  background: #eef2fa;
+}
+
+.spb-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+}
+
+.service-pick-btn.active .spb-name {
+  color: var(--blue);
+}
+
+.spb-desc {
+  font-size: 12px;
+  color: var(--mid);
 }
 
 /* ── Accessibility ────────────────────────────────────────── */
@@ -1629,6 +1802,30 @@ footer {
   </div>
 </section>
 
+<!-- ── Erbjudande ─────────────────────────────────────────────── -->
+<section id="erbjudande">
+  <div class="container">
+    <div class="erbj-inner">
+
+      <div class="erbj-text fade-up">
+        <p class="erbj-kicker">Kampanjerbjudande</p>
+        <h2 class="erbj-title">Däckhotell<br>& Däckbyte</h2>
+        <div class="erbj-price"><span>Från</span> 750 kr</div>
+        <p class="erbj-desc">Byt däck och låt oss ta hand om dina säsongsdäck — tryggt förvarade till nästa säsong. Allt på en gång, till ett fast pris.</p>
+        <a href="#bokning" class="erbj-cta">Boka erbjudandet →</a>
+      </div>
+
+      <div class="erbj-img fade-up fade-up-delay-2">
+        <img
+          src="https://images.unsplash.com/photo-1527266258038-6ae3e089a609?w=900&auto=format&fit=crop&q=80"
+          alt="Däckhotell – förvaring av däck i Göteborg"
+          loading="lazy">
+      </div>
+
+    </div>
+  </div>
+</section>
+
 <!-- ── Prislista ──────────────────────────────────────────────── -->
 <section id="prislista">
   <div class="container">
@@ -1643,11 +1840,11 @@ footer {
           <span class="price-card-subtitle">På bil</span>
         </div>
         <table class="price-table">
-          <tr><td>13" – 15"</td><td>150 kr/st</td></tr>
-          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>150 kr/st</td></tr>
-          <tr><td>18" – 19"</td><td>187,50 kr/st</td></tr>
-          <tr><td>20" – 21"</td><td>225 kr/st</td></tr>
-          <tr><td>22" – 24"</td><td>250 kr/st</td></tr>
+          <tr><td>13" – 15"</td><td>Från 150 kr/st</td></tr>
+          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>Från 150 kr/st</td></tr>
+          <tr><td>18" – 19"</td><td>Från 200 kr/st</td></tr>
+          <tr><td>20" – 21"</td><td>Från 225 kr/st</td></tr>
+          <tr><td>22" – 24"</td><td>Från 250 kr/st</td></tr>
         </table>
       </div>
 
@@ -1657,11 +1854,11 @@ footer {
           <span class="price-card-subtitle">Lösa hjul</span>
         </div>
         <table class="price-table">
-          <tr><td>13" – 15"</td><td>150 kr/st</td></tr>
-          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>150 kr/st</td></tr>
-          <tr><td>18" – 19"</td><td>187,50 kr/st</td></tr>
-          <tr><td>20" – 21"</td><td>225 kr/st</td></tr>
-          <tr><td>22" – 24"</td><td>250 kr/st</td></tr>
+          <tr><td>13" – 15"</td><td>Från 150 kr/st</td></tr>
+          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>Från 150 kr/st</td></tr>
+          <tr><td>18" – 19"</td><td>Från 200 kr/st</td></tr>
+          <tr><td>20" – 21"</td><td>Från 225 kr/st</td></tr>
+          <tr><td>22" – 24"</td><td>Från 250 kr/st</td></tr>
         </table>
       </div>
 
@@ -1671,11 +1868,11 @@ footer {
           <span class="price-card-subtitle">&nbsp;</span>
         </div>
         <table class="price-table">
-          <tr><td>13" – 15"</td><td>250 kr/st</td></tr>
-          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>250 kr/st</td></tr>
-          <tr><td>18" – 19"</td><td>325 kr/st</td></tr>
-          <tr><td>20" – 21"</td><td>375 kr/st</td></tr>
-          <tr><td>22" – 24"</td><td>375 kr/st</td></tr>
+          <tr><td>13" – 15"</td><td>Från 250 kr/st</td></tr>
+          <tr class="price-highlight"><td>16" – 17" <span class="price-popular-badge">Vanligast</span></td><td>Från 250 kr/st</td></tr>
+          <tr><td>18" – 19"</td><td>Från 325 kr/st</td></tr>
+          <tr><td>20" – 21"</td><td>Från 375 kr/st</td></tr>
+          <tr><td>22" – 24"</td><td>Från 375 kr/st</td></tr>
         </table>
       </div>
 
@@ -1687,11 +1884,11 @@ footer {
         <div class="price-extra-title">MC & Moped</div>
         <div class="price-extra-item">
           <span>MC – montering & balansering</span>
-          <strong>250 kr/st</strong>
+          <strong>Från 250 kr/st</strong>
         </div>
         <div class="price-extra-item">
           <span>Moped – montering & balansering</span>
-          <strong>100 kr/st</strong>
+          <strong>Från 100 kr/st</strong>
         </div>
       </div>
 
@@ -1760,12 +1957,25 @@ footer {
         <!-- Step 1: Tjänst -->
         <div class="step-panel active" id="step1">
           <div class="form-field full">
-            <label>Tjänst</label>
-            <div style="border:1.5px solid #ddd; border-radius:var(--radius); padding:10px 12px; font-size:14px; background:#f7f6f2; color:var(--black); font-weight:600;">Däckskifte</div>
+            <label>Välj tjänst</label>
+            <div class="service-picker" id="servicePicker">
+              <button type="button" class="service-pick-btn active" onclick="pickService('Däckskifte', this)">
+                <span class="spb-name">Däckskifte</span>
+                <span class="spb-desc">Byte av sommar- eller vinterdäck</span>
+              </button>
+              <button type="button" class="service-pick-btn" onclick="pickService('Däckhotell', this)">
+                <span class="spb-name">Däckhotell</span>
+                <span class="spb-desc">Förvaring av dina däck</span>
+              </button>
+              <button type="button" class="service-pick-btn" onclick="pickService('Däckskifte + Däckhotell', this)">
+                <span class="spb-name">Däckskifte + Däckhotell</span>
+                <span class="spb-desc">Byt och lämna kvar dina säsongsdäck</span>
+              </button>
+            </div>
           </div>
           <div class="form-field full" style="margin-top:12px;">
             <label>Anteckning (valfritt)</label>
-            <textarea id="serviceNote" rows="3" placeholder="Exempelvis extra tjänst, däckstorlek, fälgbytte eller annat du vill meddela..."></textarea>
+            <textarea id="serviceNote" rows="3" placeholder="Exempelvis däckstorlek, fälgbytte eller annat du vill meddela..."></textarea>
           </div>
           <div class="booking-nav">
             <button class="btn-step btn-step-next" id="nextBtn1" onclick="nextStep(1)">Nästa →</button>
@@ -2174,6 +2384,12 @@ document.querySelectorAll('.fade-up').forEach(function(el) {
 });
 
 // ── Booking state ────────────────────────────────────────────
+function pickService(name, btn) {
+  bookingState.service = name;
+  document.querySelectorAll('.service-pick-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
 var bookingState = {
   service: 'Däckskifte',
   date: null,
@@ -2406,6 +2622,7 @@ async function submitBooking() {
 
 function resetBooking() {
   bookingState = { service: 'Däckskifte', date: null, time: '', name: '', phone: '', regnr: '', email: '', currentStep: 1 };
+  document.querySelectorAll('.service-pick-btn').forEach(function(b, i) { b.classList.toggle('active', i === 0); });
   calendarState = { year: 0, month: 0 };
   document.getElementById('fName').value = '';
   document.getElementById('lName').value = '';
