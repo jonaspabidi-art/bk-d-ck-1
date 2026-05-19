@@ -1651,6 +1651,85 @@ footer {
   color: var(--mid);
 }
 
+/* ── Kontor ───────────────────────────────────────────────── */
+#kontor { background: var(--coal); }
+
+.kontor-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  align-items: center;
+}
+
+.kontor-img {
+  overflow: hidden;
+  height: 520px;
+}
+
+.kontor-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  transition: transform 6s ease;
+}
+
+#kontor:hover .kontor-img img { transform: scale(1.03); }
+
+.kontor-text {
+  padding: 64px 60px;
+}
+
+.kontor-text .section-label { color: var(--accent); }
+.kontor-text .section-title { color: #fff; margin-bottom: 16px; }
+
+.kontor-text p {
+  font-size: 16px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  margin-bottom: 32px;
+  text-wrap: pretty;
+}
+
+.kontor-address {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-left: 3px solid var(--blue);
+  padding-left: 20px;
+  margin-bottom: 32px;
+}
+
+.kontor-address span {
+  font-size: 15px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.7;
+}
+
+.kontor-address strong {
+  font-family: var(--font-cd);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .kontor-grid {
+    grid-template-columns: 1fr;
+  }
+  .kontor-img { height: 320px; }
+  .kontor-text { padding: 48px 32px; }
+}
+
+@media (max-width: 600px) {
+  .kontor-text { padding: 48px 20px; }
+}
+
 /* ── Accessibility ────────────────────────────────────────── */
 .visually-hidden {
   position: absolute;
@@ -2257,6 +2336,31 @@ footer {
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── Kontor ───────────────────────────────────────────────────── -->
+<section id="kontor">
+  <div class="kontor-grid">
+
+    <div class="kontor-img">
+      <img src="/uploads/kontor.jpg" alt="BK Däck kontor och reception i Göteborg" loading="lazy">
+    </div>
+
+    <div class="kontor-text">
+      <p class="section-label fade-up">Välkommen in</p>
+      <h2 class="section-title fade-up fade-up-delay-1">Besök vårt kontor</h2>
+      <p class="fade-up fade-up-delay-2">Kom in till oss och få skräddarsydd hjälp av våra experter. Vi guidar dig rätt — oavsett om det gäller däckval, fälgar eller service.</p>
+
+      <div class="kontor-address fade-up fade-up-delay-3">
+        <strong>Adress</strong>
+        <span>Ringögatan 13</span>
+        <span>417 07 Göteborg</span>
+      </div>
+
+      <a href="#hitta-hit" class="btn-primary fade-up fade-up-delay-4">Hitta hit →</a>
+    </div>
+
   </div>
 </section>
 
